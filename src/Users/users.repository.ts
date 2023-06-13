@@ -8,14 +8,14 @@ export class UserReposotory {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async finOneUser(usersFilterQuery: FilterQuery<User>): Promise<User> {
-    return this.userModel.finOneUser(usersFilterQuery);
+    return this.userModel.findOne(usersFilterQuery);
   }
 
   // async findCarByColor(carFilterQuery: FilterQuery<User>): Promise<User>{
   //     return this.userModel.findCarByColor(carFilterQuery);
 
-  async find(usersFilterQuery: FilterQuery<User>): Promise<User> {
-    return this.userModel.find(usersFilterQuery);
+  async find(usersFilterQuery: FilterQuery<User>): Promise<User[]> {
+    return this.userModel.find(usersFilterQuery).exec();
   }
 
   async create(user: User): Promise<User> {

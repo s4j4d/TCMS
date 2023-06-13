@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from './user.schema';
-import { FilterQuery, Model } from 'mongoose';
+// import { InjectModel } from '@nestjs/mongoose';
+import { User } from './user.schema';
+import { FilterQuery } from 'mongoose';
 import { UserReposotory } from './users.repository';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,8 +10,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   constructor(private readonly usersRepository: UserReposotory) {}
 
-  async getUserById(userId: String): Promise<User> {
-    return this.usersRepository.finOneUser(userId);
+  async getUserById(userId: string): Promise<User> {
+    const filterObj: FilterQuery<User> = { _id: userId };
+    return this.usersRepository.finOneUser(filterObj);
   }
 
   async getUsers(): Promise<User[]> {
@@ -19,10 +20,10 @@ export class UserService {
   }
 
   async createUser(
-    username: String,
-    national_code: Number,
+    username: string,
+    national_code: number,
     date_of_bitrh: Date,
-    total_toll_paid: Number,
+    total_toll_paid: number,
     ownerCar: any,
   ): Promise<User> {
     return this.usersRepository.create({
@@ -39,6 +40,6 @@ export class UserService {
     return this.usersRepository.findOneAndUpdate({ userId }, userUpdates);
   }
 }
-function uuidv4(): String {
+function uuidv4(): string {
   throw new Error('Function not implemented.');
 }
